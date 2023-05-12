@@ -1,7 +1,7 @@
 /*------------------------------------------------
 main.c
 Arquivo com o menu de acesso as funcionalidades do
-TAD Fila
+TAD Pilha
 ---------------------------------------------------
 Autor: Anderson Lopes Silva
 May/2023
@@ -10,7 +10,7 @@ May/2023
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
-#include "queue.h"
+#include "stack.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -23,20 +23,20 @@ typedef struct _aluno_
 int main(void)
 {
     setlocale(LC_ALL, "Portuguese_Brazil");
-    Queue *q;
-    int n, resultado, opcao = 0, filaCriada = 0, teste;
+    Stack *s;
+    int n, resultado, opcao = 0, pilhaCriada = 0, teste;
 
     do
     {
         printf("\n\n|------------------------------------------------|\n");
         printf("|                      MENU                      |\n");
         printf("|------------------------------------------------|\n");
-        printf("|| 1. Criar fila\n");
-        printf("|| 2. Inserir um item na fila\n");
-        printf("|| 3. Remover um item da fila\n");
-        printf("|| 4. Mostrar itens da fila\n");
-        printf("|| 5. Verificar se a fila esta vazia\n");
-        printf("|| 6. Destruir a fila\n");
+        printf("|| 1. Criar pilha\n");
+        printf("|| 2. Inserir um item na pilha\n");
+        printf("|| 3. Remover um item da pilha\n");
+        printf("|| 4. Mostrar elemento do topo da pilha\n");
+        printf("|| 5. Verificar se a pilha esta vazia\n");
+        printf("|| 6. Destruir a pilha\n");
         printf("|| 7. Sair\n");
         printf("||- Sua escolha: ");
         scanf("%d", &opcao);
@@ -44,30 +44,30 @@ int main(void)
         switch (opcao)
         {
         case 1:
-            if (filaCriada == FALSE)
+            if (pilhaCriada == FALSE)
             {
-                printf("\nTamanho da fila: ");
+                printf("\nTamanho da pilha: ");
                 scanf("%d", &n);
-                q = qCreate(n);
-                if (q != NULL)
+                s = stkCreate(n);
+                if (s != NULL)
                 {
-                    filaCriada = TRUE;
+                    pilhaCriada = TRUE;
                 }
             }
             else
             {
-                printf("\nVoce ja possui uma fila criada!");
+                printf("\nVoce ja possui uma pilha criada!");
             }
             break;
 
         case 2:
-            if (filaCriada)
+            if (pilhaCriada)
             {
                 Aluno *a = (Aluno *)malloc(sizeof(Aluno));
-                printf("\nAdicione um elemento na fila: ");
+                printf("\nAdicione um elemento na pilha: ");
                 scanf("%d", &a->cod);
 
-                teste = qEnqueue(q, (void *)a);
+                teste = stkPush(s, (void *)a);
                 if (teste == TRUE)
                 {
                     printf("\nElemento inserido!");
@@ -79,86 +79,82 @@ int main(void)
             }
             else
             {
-                printf("\nATENCAO: antes de utilizar as operacoes voce deve primeireiramente criar uma fila!");
+                printf("\nATENCAO: antes de utilizar as operacoes voce deve primeireiramente criar uma pilha!");
             }
             break;
         case 3:
-            if (filaCriada)
+            if (pilhaCriada)
             {
                 Aluno *a;
 
-                a = (Aluno *)qDequeue(q);
+                a = (Aluno *)stkPop(s);
                 if (a != NULL)
                 {
-                    printf("\nElemento %d foi retirado da fila!", a->cod);
+                    printf("\nElemento %d foi retirado da pilha!", a->cod);
                 }
                 else
                 {
-                    printf("\nNao foi possivel retirar o primeiro elemento da fila!");
+                    printf("\nNao foi possivel retirar o elemento do topo da pilha!");
                 }
             }
             else
             {
-                printf("\nATENCAO: antes de utilizar as operacoes voce deve primeireiramente criar uma fila!");
+                printf("\nATENCAO: antes de utilizar as operacoes voce deve primeireiramente criar uma pilha!");
             }
             break;
         case 4:
-            if (filaCriada)
+            if (pilhaCriada)
             {
-                int numItens = q->rear;
-                for (int i = 0; i <= numItens; i++)
-                {
-                    Aluno *a;
-                    a = q->item[i];
-                    printf("\nElemento[%d]: %d", i, a->cod);
-                }
+                Aluno *a;
+                a = (Aluno *)stkTop(s);
+                printf("\nElemento do topo: %d", a->cod);
             }
             else
             {
-                printf("\nATENCAO: antes de utilizar as operacoes voce deve primeireiramente criar uma fila!");
+                printf("\nATENCAO: antes de utilizar as operacoes voce deve primeireiramente criar uma pilha!");
             }
             break;
         case 5:
-            if (filaCriada)
+            if (pilhaCriada)
             {
-                teste = qIsEmpty(q);
+                teste = stkIsEmpty(s);
                 if (teste == TRUE)
                 {
-                    printf("\nFila vazia!");
+                    printf("\nPilha vazia!");
                 }
                 else
                 {
-                    printf("\nA fila nao esta vazia!");
+                    printf("\nA pilha nao esta vazia!");
                 }
             }
             else
             {
-                printf("\nATENCAO: antes de utilizar as operacoes voce deve primeireiramente criar uma fila!");
+                printf("\nATENCAO: antes de utilizar as operacoes voce deve primeireiramente criar uma pilha!");
             }
             break;
 
         case 6:
-            if (filaCriada)
+            if (pilhaCriada)
             {
-                teste = qDestroy(q);
+                teste = stkDestroy(s);
                 if (teste == TRUE)
                 {
-                    printf("\nFila Destruida!");
-                    filaCriada = FALSE;
+                    printf("\nPilha Destruida!");
+                    pilhaCriada = FALSE;
                 }
                 else
                 {
-                    printf("\nNao foi possivel destruir a fila!");
+                    printf("\nNao foi possivel destruir a pilha!");
                 }
             }
             else
             {
-                printf("\nATENCAO: antes de utilizar as operacoes voce deve primeireiramente criar uma fila!");
+                printf("\nATENCAO: antes de utilizar as operacoes voce deve primeireiramente criar uma pilha!");
             }
             break;
 
         case 7:
-            if (filaCriada)
+            if (pilhaCriada)
             {
                 printf("\n\nObrigado por utilizar meu programa :) !!\n\n");
             }

@@ -7,7 +7,7 @@ May/2023
 -------------------------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
-#include "fila.h"
+#include "queue.h"
 
 #ifndef _FILA_C_
 #define _FILA_C_

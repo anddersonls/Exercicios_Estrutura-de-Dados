@@ -6,8 +6,8 @@ Autor: Anderson Lopes Silva
 May/2023
 -------------------------------------------------*/
 
-#ifndef __FILA_H_
-#define __FILA_H_
+#ifndef __QUEUE_H_
+#define __QUEUE_H_
 
 typedef struct _queue_
 {
