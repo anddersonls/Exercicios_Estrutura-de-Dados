@@ -35,9 +35,10 @@ int main(void)
         printf("|| 2. Inserir um item na fila circular\n");
         printf("|| 3. Remover um item da fila circular\n");
         printf("|| 4. Mostrar primeiro item da fila\n");
-        printf("|| 5. Verificar se a fila circular esta vazia\n");
-        printf("|| 6. Destruir a fila circular\n");
-        printf("|| 7. Sair\n");
+        printf("|| 5. Mostrar todos os itens na fila\n");
+        printf("|| 6. Verificar se a fila circular esta vazia\n");
+        printf("|| 7. Destruir a fila circular\n");
+        printf("|| 8. Sair\n");
         printf("||- Sua escolha: ");
         scanf("%d", &opcao);
 
@@ -124,6 +125,33 @@ int main(void)
         case 5:
             if (filaCriada)
             {
+                if (q->nElms > 0)
+                {
+                    Aluno *a;
+                    a = (Aluno *)qcFirst(q);
+                    int elemento, aux = 0;
+                    elemento = q->front;
+                    while (aux < q->nElms)
+                    {
+                        aux++;
+                        a = (Aluno *)q->elms[elemento];
+                        printf("\nElemento %d: %d", aux, a->cod);
+                        elemento = incCirc(elemento, q->maxItens);
+                    }
+                }
+                else
+                {
+                    printf("\nNao ha itens na fila");
+                }
+            }
+            else
+            {
+                printf("\nATENCAO: antes de utilizar as operacoes voce deve primeireiramente criar uma fila!");
+            }
+            break;
+        case 6:
+            if (filaCriada)
+            {
                 teste = qcIsEmpty(q);
                 if (teste == TRUE)
                 {
@@ -140,7 +168,7 @@ int main(void)
             }
             break;
 
-        case 6:
+        case 7:
             if (filaCriada)
             {
                 teste = qcDestroy(q);
@@ -160,7 +188,7 @@ int main(void)
             }
             break;
 
-        case 7:
+        case 8:
             if (filaCriada)
             {
                 printf("\n\nObrigado por utilizar meu programa :) !!\n\n");
@@ -171,7 +199,7 @@ int main(void)
             printf("\n\nDigite uma opcao valida!\n\n");
         }
 
-    } while (opcao != 7);
+    } while (opcao != 8);
 
     return 0;
 }

@@ -10,7 +10,15 @@ May/2023
 #ifndef __QUEUE_H_
 #define __QUEUE_H_
 
-typedef struct _queue_ CQueue;
+typedef struct _queue_
+{
+    int front,
+        rear;
+    int maxItens;
+    int nElms;
+    void **elms;
+} CQueue;
+
 CQueue *qcCreate(int max);
 int qcEnqueue(CQueue *q, void *elm);
 void *qcDequeue(CQueue *q);

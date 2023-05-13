@@ -16,15 +16,6 @@ May/2023
 #define TRUE 1
 #define FALSE 0
 
-typedef struct _queue_
-{
-    int front,
-        rear;
-    int maxItens;
-    int nElms;
-    void **elms;
-} CQueue;
-
 CQueue *qcCreate(int max)
 {
     if (max > 0)
@@ -69,7 +60,6 @@ void *qcDequeue(CQueue *q)
         if (q->nElms > 0)
         {
             q->nElms--;
-            printf("\nnelms: %d", q->nElms);
             data = q->elms[q->front];
             free(q->elms[q->front]);
             q->front = incCirc(q->front, q->maxItens);
