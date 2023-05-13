@@ -11,7 +11,13 @@ May/2023
 #ifndef __STACK_H
 #define __STACK_H
 
-typedef struct _stack_ Stack;
+typedef struct _stack_
+{
+    int maxItens;
+    int top;
+    void **item;
+} Stack;
+
 Stack *stkCreate(int max);
 int stkPush(Stack *s, void *elm);
 void *stkPop(Stack *s);

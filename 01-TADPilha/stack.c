@@ -16,13 +16,6 @@ May/2023
 #define TRUE 1
 #define FALSE 0
 
-typedef struct _stack_
-{
-    int maxItens;
-    int top;
-    void **item;
-} Stack;
-
 Stack *stkCreate(int max)
 {
     Stack *s;

@@ -35,9 +35,10 @@ int main(void)
         printf("|| 2. Inserir um item na pilha\n");
         printf("|| 3. Remover um item da pilha\n");
         printf("|| 4. Mostrar elemento do topo da pilha\n");
-        printf("|| 5. Verificar se a pilha esta vazia\n");
-        printf("|| 6. Destruir a pilha\n");
-        printf("|| 7. Sair\n");
+        printf("|| 5. Mostrar todos os elementos da pilha\n");
+        printf("|| 6. Verificar se a pilha esta vazia\n");
+        printf("|| 7. Destruir a pilha\n");
+        printf("|| 8. Sair\n");
         printf("||- Sua escolha: ");
         scanf("%d", &opcao);
 
@@ -105,9 +106,16 @@ int main(void)
         case 4:
             if (pilhaCriada)
             {
-                Aluno *a;
-                a = (Aluno *)stkTop(s);
-                printf("\nElemento do topo: %d", a->cod);
+                if (s->top >= 0)
+                {
+                    Aluno *a;
+                    a = (Aluno *)stkTop(s);
+                    printf("\nElemento do topo: %d", a->cod);
+                }
+                else
+                {
+                    printf("\nNao ha elementos na pilha!");
+                }
             }
             else
             {
@@ -115,6 +123,30 @@ int main(void)
             }
             break;
         case 5:
+            if (pilhaCriada)
+            {
+                if (s->top >= 0)
+                {
+                    int aux = 0;
+                    Aluno *a;
+                    for (int i = s->top; i >= 0; i--)
+                    {
+                        aux++;
+                        a = (Aluno *)s->item[i];
+                        printf("\nElemento %d: %d", aux, a->cod);
+                    }
+                }
+                else
+                {
+                    printf("\nNao ha elementos na pilha!");
+                }
+            }
+            else
+            {
+                printf("\nATENCAO: antes de utilizar as operacoes voce deve primeireiramente criar uma pilha!");
+            }
+            break;
+        case 6:
             if (pilhaCriada)
             {
                 teste = stkIsEmpty(s);
@@ -133,7 +165,7 @@ int main(void)
             }
             break;
 
-        case 6:
+        case 7:
             if (pilhaCriada)
             {
                 teste = stkDestroy(s);
@@ -153,7 +185,7 @@ int main(void)
             }
             break;
 
-        case 7:
+        case 8:
             if (pilhaCriada)
             {
                 printf("\n\nObrigado por utilizar meu programa :) !!\n\n");
@@ -164,7 +196,7 @@ int main(void)
             printf("\n\nDigite uma opcao valida!\n\n");
         }
 
-    } while (opcao != 7);
+    } while (opcao != 8);
 
     return 0;
 }
