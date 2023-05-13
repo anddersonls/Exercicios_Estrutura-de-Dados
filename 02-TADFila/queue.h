@@ -1,5 +1,5 @@
 /*------------------------------------------------
-fila.h
+queue.h
 Arquivo com a especificação para o TAD Fila
 ---------------------------------------------------
 Autor: Anderson Lopes Silva

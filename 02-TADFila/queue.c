@@ -1,5 +1,5 @@
 /*------------------------------------------------
-fila.c
+queue.c
 Arquivo com a definição das funções do TAD Fila
 ---------------------------------------------------
 Autor: Anderson Lopes Silva
@@ -9,8 +9,8 @@ May/2023
 #include <stdlib.h>
 #include "queue.h"
 
-#ifndef _FILA_C_
-#define _FILA_C_
+#ifndef _QUEUE_C_
+#define _QUEUE_C_
 
 #define TRUE 1
 #define FALSE 0
