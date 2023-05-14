@@ -1,5 +1,5 @@
 /*------------------------------------------------
-queue.c
+cqueue.c
 Arquivo com a definição das funções do TAD Fila
 Circular
 ---------------------------------------------------

@@ -1,5 +1,5 @@
 /*------------------------------------------------
-main.c
+menu.c
 Arquivo com o menu de acesso as funcionalidades do
 TAD Fila
 ---------------------------------------------------
