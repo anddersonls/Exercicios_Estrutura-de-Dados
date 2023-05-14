@@ -15,9 +15,9 @@ May/2023
 #define FALSE 0
 
 void mostraFila(Queue *q);
-// Lista de exercícios de fila 2: questao 1
+// Lista de exercícios de fila 1: questao 1
 int qPromoveUltimo(Queue *q, int n);
-// Lista de exercícios de fila 2: questao 2
+// Lista de exercícios de fila 1: questao 2
 int qPunePrimeiro(Queue *q, int n);
 
 int main()
@@ -51,7 +51,7 @@ void mostraFila(Queue *q)
     }
 }
 
-// Lista de exercícios de fila 2: questao 1
+// Lista de exercícios de fila 1: questao 1
 /*Promover um elemento que esta no final da
 fila colocando-o n posições pra frente.*/
 int qPromoveUltimo(Queue *q, int n)
@@ -81,7 +81,7 @@ int qPromoveUltimo(Queue *q, int n)
     return FALSE;
 }
 
-// Lista de exercícios de fila 2: questao 2
+// Lista de exercícios de fila 1: questao 2
 /*Punir o primeiro elemento da fila colocando-o
 n posições para tras.*/
 int qPunePrimeiro(Queue *q, int n)
