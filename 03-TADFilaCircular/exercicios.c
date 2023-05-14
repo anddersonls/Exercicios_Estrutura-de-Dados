@@ -17,6 +17,8 @@ May/2023
 void mostrarFila(CQueue *cq);
 // Lista de exercícios de fila 2: questao 1
 int cqPromoveUltimo(CQueue *q, int n);
+// Lista de exercícios de fila circular 2: questao 2
+int cqPunePrimeiro(CQueue *q, int n);
 
 int main()
 {
@@ -43,7 +45,8 @@ int main()
 
     mostrarFila(cq);
     printf("\n");
-    teste = cqPromoveUltimo(cq, 5);
+    // teste = cqPromoveUltimo(cq, 5);
+    teste = cqPunePrimeiro(cq, 12);
     mostrarFila(cq);
     return 0;
 }
@@ -89,6 +92,38 @@ int cqPromoveUltimo(CQueue *q, int n)
                 aux = decCirc(aux, q->maxItens);
             }
             q->elms[aux] = data;
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+// Lista de exercícios de fila circular 2: questão 2
+/*Punir o primeiro elemento da fila colocando-o n
+posições para tras.*/
+int cqPunePrimeiro(CQueue *q, int n)
+{
+    if (q != NULL)
+    {
+        if (q->rear > 0)
+        {
+            void *data = q->elms[q->front];
+            int movimentos;
+            if (n >= q->nElms)
+            {
+                movimentos = q->nElms - 1;
+            }
+            else
+            {
+                movimentos = n;
+            }
+            int aux = q->front;
+            for (int i = 0; i < movimentos; i++)
+            {
+                q->elms[aux] = q->elms[incCirc(aux, q->maxItens)];
+                aux = incCirc(aux, q->maxItens);
+            }
+            q->elms[q->rear] = data;
         }
         return TRUE;
     }
