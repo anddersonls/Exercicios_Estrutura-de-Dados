@@ -17,11 +17,14 @@ May/2023
 void mostraFila(Queue *q);
 // Lista de exercícios de fila 2: questao 1
 int qPromoveUltimo(Queue *q, int n);
+// Lista de exercícios de fila 2: questao 2
+int qPunePrimeiro(Queue *q, int n);
 
 int main()
 {
     Queue *q;
     int n = 5, teste;
+    void *a;
 
     q = qCreate(n);
     teste = qEnqueue(q, (void *)2);
@@ -29,8 +32,11 @@ int main()
     teste = qEnqueue(q, (void *)1);
     teste = qEnqueue(q, (void *)3);
     teste = qEnqueue(q, (void *)9);
+    a = qDequeue(q);
 
-    teste = qPromoveUltimo(q, 8);
+    // teste = qPromoveUltimo(q, 8);
+    teste = qPunePrimeiro(q, 8);
+    teste = qEnqueue(q, (void *)4);
     mostraFila(q);
     return 0;
 }
@@ -46,13 +52,15 @@ void mostraFila(Queue *q)
 }
 
 // Lista de exercícios de fila 2: questao 1
+/*Promover um elemento que esta no final da
+fila colocando-o n posições pra frente.*/
 int qPromoveUltimo(Queue *q, int n)
 {
     if (q != NULL)
     {
         if (q->rear > 0)
         {
-            int *data = (int *)q->item[q->rear];
+            void *data = q->item[q->rear];
             int anda;
             if (n >= q->rear)
             {
@@ -67,8 +75,38 @@ int qPromoveUltimo(Queue *q, int n)
                 q->item[i] = q->item[i - 1];
             }
             q->item[q->rear - anda] = data;
-            return TRUE;
         }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+// Lista de exercícios de fila 2: questao 2
+/*Punir o primeiro elemento da fila colocando-o
+n posições para tras.*/
+int qPunePrimeiro(Queue *q, int n)
+{
+    if (q != NULL)
+    {
+        if (q->rear > 0)
+        {
+            void *data = q->item[q->front];
+            int movimentos;
+            if (n >= q->rear)
+            {
+                movimentos = q->rear;
+            }
+            else
+            {
+                movimentos = n;
+            }
+            for (int i = 0; i < movimentos; i++)
+            {
+                q->item[i] = q->item[i + 1];
+            }
+            q->item[q->rear] = data;
+        }
+        return TRUE;
     }
     return FALSE;
 }

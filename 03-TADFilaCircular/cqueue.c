@@ -61,7 +61,7 @@ void *qcDequeue(CQueue *q)
         {
             q->nElms--;
             data = q->elms[q->front];
-            free(q->elms[q->front]);
+            // free(q->elms[q->front]);
             q->front = incCirc(q->front, q->maxItens);
             return data;
         }

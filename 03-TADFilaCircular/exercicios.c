@@ -65,6 +65,7 @@ void mostrarFila(CQueue *cq)
     }
 }
 
+// Lista de exercícios de fila 2: questao 1
 int cqPromoveUltimo(CQueue *q, int n)
 {
     if (q != NULL)
@@ -88,8 +89,8 @@ int cqPromoveUltimo(CQueue *q, int n)
                 aux = decCirc(aux, q->maxItens);
             }
             q->elms[aux] = data;
-            return TRUE;
         }
+        return TRUE;
     }
     return FALSE;
 }
