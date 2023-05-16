@@ -21,9 +21,9 @@ int EX0Y(char *s, int n);
 
 int main()
 {
-    int n = 5, teste;
+    int n = 6, teste;
     char *s;
-    char string_origem[] = "AB1BA";
+    char string_origem[] = "AB0BAa";
 
     s = malloc(strlen(string_origem) + 1);
     strcpy(s, string_origem);
@@ -62,7 +62,7 @@ caracter 0. e a string X tem os caracteres na ordem inversa da
 string Y */
 int EX0Y(char *s, int n)
 {
-    if (n % 2 == 1)
+    if (s != NULL && n % 2 == 1)
     {
         if (s[n / 2] == '0')
         {
