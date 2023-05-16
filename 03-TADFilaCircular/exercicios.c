@@ -19,34 +19,41 @@ void mostrarFila(CQueue *cq);
 int cqPromoveUltimo(CQueue *q, int n);
 // Lista de exercícios de fila circular 1: questao 2
 int cqPunePrimeiro(CQueue *q, int n);
+// Prova 2022.1: Questão 2
+int PunePrimeiro(CQueue *q, int n);
 
 int main()
 {
     CQueue *cq;
-    int n = 5, teste;
-    void *a;
+    int n = 5;
 
     cq = qcCreate(n);
-    teste = qcEnqueue(cq, (void *)3);
-    teste = qcEnqueue(cq, (void *)1);
-    teste = qcEnqueue(cq, (void *)7);
-    teste = qcEnqueue(cq, (void *)9);
-    teste = qcEnqueue(cq, (void *)4);
-    mostrarFila(cq);
-    printf("\n");
-    a = qcDequeue(cq);
-    a = qcDequeue(cq);
-    mostrarFila(cq);
-    printf("\n");
-    teste = qcEnqueue(cq, (void *)3);
-    a = qcDequeue(cq);
-    teste = qcEnqueue(cq, (void *)19);
-    teste = qcEnqueue(cq, (void *)21);
 
+    qcEnqueue(cq, (void *)3);
+    qcEnqueue(cq, (void *)1);
+    qcEnqueue(cq, (void *)7);
+    qcEnqueue(cq, (void *)9);
+    qcEnqueue(cq, (void *)4);
     mostrarFila(cq);
     printf("\n");
-    // teste = cqPromoveUltimo(cq, 5);
-    teste = cqPunePrimeiro(cq, 12);
+
+    qcDequeue(cq);
+    qcDequeue(cq);
+    mostrarFila(cq);
+    printf("\n");
+
+    qcEnqueue(cq, (void *)3);
+    qcDequeue(cq);
+    qcEnqueue(cq, (void *)19);
+    qcEnqueue(cq, (void *)21);
+    qcDequeue(cq);
+    qcDequeue(cq);
+    qcDequeue(cq);
+    mostrarFila(cq);
+    printf("\n");
+
+    // cqPromoveUltimo(cq, 5);
+    PunePrimeiro(cq, 12);
     mostrarFila(cq);
     return 0;
 }
@@ -122,6 +129,40 @@ int cqPunePrimeiro(CQueue *q, int n)
             {
                 q->elms[aux] = q->elms[incCirc(aux, q->maxItens)];
                 aux = incCirc(aux, q->maxItens);
+            }
+            q->elms[q->rear] = data;
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+// Prova 2022.1: Questão 2
+/*Receber uma fila implementada como um vetor circular e punir o
+primeiro elemento da fila colocando-o n posições para trás se a fila
+tiver mais que n elementos ou coloca-lo no final da fila de se a fila
+tiver menos que n elementos. (30 pontos)*/
+int PunePrimeiro(CQueue *q, int n)
+{
+    if (q != NULL)
+    {
+        int movimentos;
+        void *data = q->elms[q->front];
+        if (n < q->nElms - 1)
+        {
+            q->rear = incCirc(q->rear, q->maxItens);
+            q->elms[q->rear] = data;
+            q->front = incCirc(q->front, q->maxItens);
+        }
+        else
+        {
+            movimentos = q->nElms - 1;
+            int aux = q->front, i;
+            while (i < movimentos)
+            {
+                q->elms[aux] = q->elms[incCirc(aux, q->maxItens)];
+                aux = incCirc(aux, q->maxItens);
+                i++;
             }
             q->elms[q->rear] = data;
         }
