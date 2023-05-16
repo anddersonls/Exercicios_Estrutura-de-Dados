@@ -18,9 +18,13 @@ May/2023
 void mostrarPilha(Stack *s);
 // lista 2 pilha, exercicio 1
 int EX0Y(char *s, int n);
+// Prova 2022.1: Questão 3
+void RemoveMenoresQueChave(Stack *s, void *key, int *(cmp)(void *, void *));
+int *cmp(void *key, void *data);
 
 int main()
 {
+    /*
     int n = 6, teste;
     char *s;
     char string_origem[] = "AB0BAa";
@@ -37,7 +41,20 @@ int main()
     else
     {
         printf("X=Y: FALSE");
-    }
+    } */
+
+    Stack *s;
+    s = stkCreate(8);
+    stkPush(s, (void *)10);
+    stkPush(s, (void *)3);
+    stkPush(s, (void *)6);
+    stkPush(s, (void *)7);
+    stkPush(s, (void *)8);
+    stkPush(s, (void *)5);
+    mostrarPilha(s);
+    RemoveMenoresQueChave(s, (void *)4, cmp);
+    printf("\n");
+    mostrarPilha(s);
 
     return 0;
 }
@@ -98,4 +115,43 @@ int EX0Y(char *s, int n)
         }
     }
     return FALSE;
+}
+
+/*Receber uma pilha armazenada em um vetor e uma chave,
+e romover todos os elementos até encontrar um com chave menor
+que o valor da chave recebida; não pode usar pops e pushs e
+deve obedecer a disciplina de acesso da pilha*/
+void RemoveMenoresQueChave(Stack *s, void *key, int *(cmp)(void *, void *))
+{
+    if (s != NULL)
+    {
+        if (s->top >= 0)
+        {
+            void *data;
+            int *verifica;
+            while (s->top >= 0)
+            {
+                data = s->item[s->top];
+                s->top--;
+                verifica = cmp(key, data);
+                if (*verifica)
+                {
+                    s->top++;
+                    s->item[s->top] = data;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+int *cmp(void *key, void *data)
+{
+    static int resultado = FALSE;
+    if (data < key)
+    {
+        resultado = TRUE;
+        return &resultado;
+    }
+    return &resultado;
 }
