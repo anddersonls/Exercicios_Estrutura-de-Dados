@@ -27,7 +27,7 @@ int RemoverImpares(CQueue *F);
 int main()
 {
     CQueue *cq;
-    int n = 5;
+    int n = 10;
 
     cq = qcCreate(n);
 
@@ -39,13 +39,10 @@ int main()
     mostrarFila(cq);
     printf("\n");
 
-    qcDequeue(cq);
-    qcDequeue(cq);
     mostrarFila(cq);
     printf("\n");
 
     qcEnqueue(cq, (void *)3);
-    qcDequeue(cq);
     qcEnqueue(cq, (void *)19);
     qcEnqueue(cq, (void *)21);
     mostrarFila(cq);
@@ -53,6 +50,7 @@ int main()
 
     // cqPromoveUltimo(cq, 5);
     RemoverImpares(cq);
+    qcEnqueue(cq, (void *)3);
     mostrarFila(cq);
     return 0;
 }
