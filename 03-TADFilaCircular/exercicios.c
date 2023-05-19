@@ -21,6 +21,8 @@ int cqPromoveUltimo(CQueue *q, int n);
 int cqPunePrimeiro(CQueue *q, int n);
 // Prova 2022.1: Questão 2
 int PunePrimeiro(CQueue *q, int n);
+// Prova 20XX(1): Questão 1
+int RemoverImpares(CQueue *F);
 
 int main()
 {
@@ -46,14 +48,11 @@ int main()
     qcDequeue(cq);
     qcEnqueue(cq, (void *)19);
     qcEnqueue(cq, (void *)21);
-    qcDequeue(cq);
-    qcDequeue(cq);
-    qcDequeue(cq);
     mostrarFila(cq);
     printf("\n");
 
     // cqPromoveUltimo(cq, 5);
-    PunePrimeiro(cq, 12);
+    RemoverImpares(cq);
     mostrarFila(cq);
     return 0;
 }
@@ -165,6 +164,37 @@ int PunePrimeiro(CQueue *q, int n)
                 i++;
             }
             q->elms[q->rear] = data;
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+// Prova 20XX(1): Questão 1
+/*Remover todos os elementos de ordem ímpar (primeiro, terceiro, quinto..)
+de uma fila armazenada em um vetor circular*/
+int RemoverImpares(CQueue *F)
+{
+    if (F != NULL && F->nElms > 0)
+    {
+        if (F->nElms <= 2)
+        {
+            qcDequeue(F);
+        }
+        else
+        {
+            int moves;
+            int i = F->front, aux = incCirc(F->front, F->maxItens), cont = 0;
+            while (cont < F->nElms / 2)
+            {
+                F->elms[i] = F->elms[aux];
+                i = incCirc(i, F->maxItens);
+                aux = incCirc(aux, F->maxItens);
+                aux = incCirc(aux, F->maxItens);
+                cont++;
+            }
+            F->rear = decCirc(i, F->maxItens);
+            F->nElms = cont;
         }
         return TRUE;
     }
