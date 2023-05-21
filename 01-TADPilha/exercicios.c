@@ -26,6 +26,8 @@ int EX0Y0X(char *s, int n);
 // Prova 2017.1: Questão 3
 int VerifyString(char *s, int n);
 char *ReadChar(char *s, int i);
+// Prova 2017.1: Questão 4
+int VerificaString(Stack *s, char *str, int n);
 
 int main()
 {
@@ -61,16 +63,19 @@ int main()
     printf("\n");
     mostrarPilha(s);*/
 
-    int n = 2, teste;
+    int n = 12, teste;
     char *s;
-    char string_origem[] = "AB";
+    char string_origem[] = "12021012021";
+    Stack *stk;
 
+    stk = stkCreate(n);
     s = malloc(strlen(string_origem) + 1);
     strcpy(s, string_origem);
     printf("String copiada: %s\n", s);
 
     // teste = EX0Y0X(s, n);
-    teste = VerifyString(s, n);
+    // teste = VerifyString(s, n);
+    teste = VerificaString(stk, s, n);
 
     if (teste)
     {
@@ -284,4 +289,56 @@ int VerifyString(char *s, int n)
 char *ReadChar(char *s, int i)
 {
     return &s[i];
+}
+
+// Prova 2017.1: Questão 4
+/*Receber um vetor de caracteres com somente os caracteres 1,2 e um
+único caracter 0, e o tamanho do vetor que tem caracteres preenchidos
+(válidos) e usando o TAD Pilha verificar se a string recebida é da forma
+x0y0x0y onde x é o inverso de y. (se x = "12221122", y ="22112221"). Não
+pode usar memória auxiliar somente usar as funções do TAD (stkCreate, stkPop,
+stkPPush, stkDestroy)*/
+int VerificaString(Stack *s, char *str, int n)
+{
+    if (s != NULL && str != NULL && n > 0)
+    {
+        int i = 0, aux, verifica = TRUE, qtd = 0, cont = 0;
+        char *c;
+        while (cont < 3 && verifica == TRUE)
+        {
+            while (str[i] != '0' && i < n)
+            {
+                stkPush(s, (void *)&str[i]);
+                i++;
+                qtd++;
+            }
+            i++;
+            aux = i;
+            while (str[aux] != '0' && aux < n && verifica == TRUE && qtd > 0)
+            {
+                c = (char *)stkPop(s);
+                if (str[aux] != *c)
+                {
+                    verifica = FALSE;
+                    break;
+                }
+                qtd--;
+                aux++;
+            }
+            if (verifica == TRUE && qtd == 0)
+            {
+                cont++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        if (cont == 3)
+        {
+            return TRUE;
+        }
+    }
+
+    return FALSE;
 }
