@@ -23,6 +23,9 @@ void RemoveMenoresQueChave(Stack *s, void *key, int *(cmp)(void *, void *));
 int *cmp(void *key, void *data);
 // Prova 20XX: questão 2
 int EX0Y0X(char *s, int n);
+// Prova 2017.1: Questão 3
+int VerifyString(char *s, int n);
+char *ReadChar(char *s, int i);
 
 int main()
 {
@@ -58,22 +61,24 @@ int main()
     printf("\n");
     mostrarPilha(s);*/
 
-    int n = 8, teste;
+    int n = 2, teste;
     char *s;
-    char string_origem[] = "12012012";
+    char string_origem[] = "AB";
 
     s = malloc(strlen(string_origem) + 1);
     strcpy(s, string_origem);
     printf("String copiada: %s\n", s);
 
-    teste = EX0Y0X(s, n);
+    // teste = EX0Y0X(s, n);
+    teste = VerifyString(s, n);
+
     if (teste)
     {
-        printf("string do tipo EX0Y0X: TRUE");
+        printf("TRUE");
     }
     else
     {
-        printf("string do tipo EX0Y0X: FALSE");
+        printf("FALSE");
     }
 
     return 0;
@@ -238,4 +243,45 @@ int EX0Y0X(char *s, int n)
         }
     }
     return FALSE;
+}
+
+// Prova 2017.1: Questão 3
+/*Escreva um algoritmo para determinar se uma string de caracteres é
+formada por um número de letras 'A' seguidos por igual número de letras
+B. Em cada ponto você deve somente ler o próximo caractere da string com
+a função ReadChar. O algoritmo deve usar pilhas pra resolver o problema
+e não pode contar o número de letras 'A'*/
+int VerifyString(char *s, int n)
+{
+    if (s != NULL)
+    {
+        Stack *stk = stkCreate(n);
+        int i = 0;
+        char *c = ReadChar(s, i);
+        if (stk != NULL)
+        {
+            while (*c == 'A' && i < n)
+            {
+                stkPush(stk, (void *)&s[i]);
+                i++;
+                c = ReadChar(s, i);
+            }
+            while (*c == 'B' && i < n)
+            {
+                stkPop(stk);
+                i++;
+                c = ReadChar(s, i);
+            }
+            if (stk->top == -1)
+            {
+                return TRUE;
+            }
+        }
+    }
+    return FALSE;
+}
+
+char *ReadChar(char *s, int i)
+{
+    return &s[i];
 }
