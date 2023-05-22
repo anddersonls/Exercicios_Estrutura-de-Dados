@@ -63,9 +63,9 @@ int main()
     printf("\n");
     mostrarPilha(s);*/
 
-    int n = 12, teste;
+    int n = 10, teste;
     char *s;
-    char string_origem[] = "12021012021";
+    char string_origem[] = "AAABBBAABB";
     Stack *stk;
 
     stk = stkCreate(n);
@@ -74,8 +74,8 @@ int main()
     printf("String copiada: %s\n", s);
 
     // teste = EX0Y0X(s, n);
-    // teste = VerifyString(s, n);
-    teste = VerificaString(stk, s, n);
+    teste = VerifyString(s, n);
+    // teste = VerificaString(stk, s, n);
 
     if (teste)
     {
@@ -265,21 +265,28 @@ int VerifyString(char *s, int n)
         char *c = ReadChar(s, i);
         if (stk != NULL)
         {
-            while (*c == 'A' && i < n)
+            while (i < n)
             {
-                stkPush(stk, (void *)&s[i]);
-                i++;
-                c = ReadChar(s, i);
-            }
-            while (*c == 'B' && i < n)
-            {
-                stkPop(stk);
-                i++;
-                c = ReadChar(s, i);
-            }
-            if (stk->top == -1)
-            {
-                return TRUE;
+                while (*c == 'A' && i < n)
+                {
+                    stkPush(stk, (void *)&s[i]);
+                    i++;
+                    c = ReadChar(s, i);
+                }
+                while (*c == 'B' && i < n)
+                {
+                    stkPop(stk);
+                    i++;
+                    c = ReadChar(s, i);
+                }
+                if (stk->top == -1 && i == n)
+                {
+                    return TRUE;
+                }
+                if (*c != 'A' && *c != 'B')
+                {
+                    break;
+                }
             }
         }
     }
