@@ -23,6 +23,8 @@ int cqPunePrimeiro(CQueue *q, int n);
 int PunePrimeiro(CQueue *q, int n);
 // Prova 20XX(1): Questão 1
 int RemoverImpares(CQueue *F);
+// Prova 2017.1: Questão 1
+int qEnqueueN(CQueue *q, int n, void **elms);
 
 int main()
 {
@@ -43,14 +45,20 @@ int main()
     printf("\n");
 
     qcEnqueue(cq, (void *)3);
-    qcEnqueue(cq, (void *)19);
-    qcEnqueue(cq, (void *)21);
     mostrarFila(cq);
     printf("\n");
 
     // cqPromoveUltimo(cq, 5);
-    RemoverImpares(cq);
-    qcEnqueue(cq, (void *)3);
+
+    // RemoverImpares(cq);
+
+    /*
+    void **elms;
+    elms = (void **)malloc(3 * sizeof(void *));
+    elms[0] = (void *)11;
+    elms[1] = (void *)13;
+    elms[2] = (void *)19;
+    qEnqueueN(cq, 3, elms);*/
     mostrarFila(cq);
     return 0;
 }
@@ -194,6 +202,28 @@ int RemoverImpares(CQueue *F)
             F->rear = decCirc(i, F->maxItens);
             F->nElms = cont;
         }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+// Prova 2017.1: Questão 1
+/*Implemente uma função que recebe, uma fila armazenada em um vetor
+circular, e um vetor com n elementos, e insere os n elementos na fila.
+Não pode usar memória adicional (vetores auxiliares) nem chamar outras
+funções do TAD Queue.*/
+int qEnqueueN(CQueue *q, int n, void **elms)
+{
+    if (q != NULL && n > 0 && elms != NULL && q->maxItens - q->nElms >= n)
+    {
+        int aux = incCirc(q->rear, q->maxItens);
+        for (int i = 0; i < n; i++)
+        {
+            q->elms[aux] = elms[i];
+            aux = incCirc(aux, q->maxItens);
+        }
+        q->rear = decCirc(aux, q->maxItens);
+        q->nElms += n;
         return TRUE;
     }
     return FALSE;
