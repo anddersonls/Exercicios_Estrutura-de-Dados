@@ -25,6 +25,8 @@ int PunePrimeiro(CQueue *q, int n);
 int RemoverImpares(CQueue *F);
 // Prova 2017.1: Questão 1
 int qEnqueueN(CQueue *q, int n, void **elms);
+// Prova 2011.2: Questão 2
+void PuneFuraFila(CQueue *f);
 
 int main()
 {
@@ -45,6 +47,7 @@ int main()
     printf("\n");
 
     qcEnqueue(cq, (void *)3);
+    qcEnqueue(cq, (void *)11);
     mostrarFila(cq);
     printf("\n");
 
@@ -59,6 +62,8 @@ int main()
     elms[1] = (void *)13;
     elms[2] = (void *)19;
     qEnqueueN(cq, 3, elms);*/
+
+    PuneFuraFila(cq);
     mostrarFila(cq);
     return 0;
 }
@@ -227,4 +232,29 @@ int qEnqueueN(CQueue *q, int n, void **elms)
         return TRUE;
     }
     return FALSE;
+}
+
+// Prova 2011.2 - Questão 2
+/*Escreva um algoritmo que promove o último elemento de uma fila
+representada em um vetor circular, retirando-o da ultima posição
+e colocando-o no meio da fila. Não pode realizar chamadas a função
+Insere e Retira da fila, o algoritmo deve realizar a operação
+somente com manipulação do cetor que representa a fila*/
+void PuneFuraFila(CQueue *f)
+{
+    if (f != NULL)
+    {
+        if (f->nElms > 2)
+        {
+            int movimentos = f->nElms / 2, i = 0, aux = f->rear;
+            void *item = f->elms[f->rear];
+            while (i < movimentos)
+            {
+                f->elms[aux] = f->elms[decCirc(aux, f->maxItens)];
+                aux = decCirc(aux, f->maxItens);
+                i++;
+            }
+            f->elms[aux] = item;
+        }
+    }
 }
