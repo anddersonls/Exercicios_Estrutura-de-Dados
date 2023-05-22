@@ -53,7 +53,7 @@ int main()
 
     // cqPromoveUltimo(cq, 5);
 
-    // RemoverImpares(cq);
+    RemoverImpares(cq);
 
     /*
     void **elms;
@@ -63,7 +63,8 @@ int main()
     elms[2] = (void *)19;
     qEnqueueN(cq, 3, elms);*/
 
-    PuneFuraFila(cq);
+    // PuneFuraFila(cq);
+
     mostrarFila(cq);
     return 0;
 }
@@ -188,25 +189,18 @@ int RemoverImpares(CQueue *F)
 {
     if (F != NULL && F->nElms > 0)
     {
-        if (F->nElms <= 2)
+        int moves;
+        int i = F->front, aux = incCirc(F->front, F->maxItens), cont = 0;
+        while (cont < F->nElms / 2)
         {
-            qcDequeue(F);
+            F->elms[i] = F->elms[aux];
+            i = incCirc(i, F->maxItens);
+            aux = incCirc(aux, F->maxItens);
+            aux = incCirc(aux, F->maxItens);
+            cont++;
         }
-        else
-        {
-            int moves;
-            int i = F->front, aux = incCirc(F->front, F->maxItens), cont = 0;
-            while (cont < F->nElms / 2)
-            {
-                F->elms[i] = F->elms[aux];
-                i = incCirc(i, F->maxItens);
-                aux = incCirc(aux, F->maxItens);
-                aux = incCirc(aux, F->maxItens);
-                cont++;
-            }
-            F->rear = decCirc(i, F->maxItens);
-            F->nElms = cont;
-        }
+        F->rear = decCirc(i, F->maxItens);
+        F->nElms = cont;
         return TRUE;
     }
     return FALSE;
