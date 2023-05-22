@@ -15,6 +15,15 @@ May/2023
 #define TRUE 1
 #define FALSE 0
 
+// pilha dupla
+typedef struct _PilhaDupla_
+{
+    int maxSize;
+    int top1; // Topo da primeira pilha
+    int top2; // Topo da segunda pilha
+    void **item;
+} PilhaDupla;
+
 void mostrarPilha(Stack *s);
 // lista 2 pilha, exercicio 1
 int EX0Y(char *s, int n);
@@ -29,6 +38,13 @@ char *ReadChar(char *s, int i);
 // Prova 2017.1: Questão 4
 // Resolve qualquer problema de string do tipo x0y0x...
 int VerificaString(Stack *s, char *str, int n);
+// Prova 20XX(3): Questão 3
+// Implementação da pilha dupla
+PilhaDupla *PilhaDuplaCreate(int maxSize);
+int push1(PilhaDupla *s, void *item);
+int push2(PilhaDupla *s, void *item);
+int pop1(PilhaDupla *s);
+int pop2(PilhaDupla *s);
 
 int main()
 {
@@ -342,4 +358,84 @@ int VerificaString(Stack *s, char *str, int n)
     }
 
     return FALSE;
+}
+
+// Prova 20XX(3): Questão 3
+// Implementação da Pilha Dupla
+PilhaDupla *PilhaDuplaCreate(int maxSize)
+{
+    PilhaDupla *s;
+    if (maxSize > 0)
+    {
+        s = (PilhaDupla *)malloc(sizeof(PilhaDupla));
+        if (s != NULL)
+        {
+            s->item = (void **)malloc(sizeof(void *) * maxSize);
+            if (s->item != NULL)
+            {
+                s->maxSize = maxSize;
+                s->top1 = -1;
+                s->top2 = maxSize;
+                return s;
+            }
+        }
+    }
+    return NULL;
+}
+
+int push1(PilhaDupla *s, void *item)
+{
+    if (s != NULL)
+    {
+        if (s->top1 + 1 < s->top2)
+        {
+            s->top1++;
+            s->item[s->top1] = item;
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+int push2(PilhaDupla *s, void *item)
+{
+    if (s != NULL)
+    {
+        if (s->top2 - 1 > s->top1)
+        {
+            s->top2--;
+            s->item[s->top2] = item;
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+int pop1(PilhaDupla *s)
+{
+    void *aux;
+    if (s != NULL)
+    {
+        if (s->top1 >= 0)
+        {
+            aux = s->item[s->top1];
+            s->top1--;
+            return aux;
+        }
+    }
+    return NULL;
+}
+
+int pop2(PilhaDupla *s)
+{
+    void *aux;
+    if (s != NULL)
+    {
+        if (s->top2 < s->maxSize)
+        {
+            aux = s->item[s->top2];
+            s->top2++;
+            return aux;
+        }
+    }
+    return NULL;
 }
