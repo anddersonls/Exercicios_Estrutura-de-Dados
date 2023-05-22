@@ -27,6 +27,7 @@ int EX0Y0X(char *s, int n);
 int VerifyString(char *s, int n);
 char *ReadChar(char *s, int i);
 // Prova 2017.1: Questão 4
+// Resolve qualquer problema de string do tipo x0y0x...
 int VerificaString(Stack *s, char *str, int n);
 
 int main()
@@ -305,6 +306,7 @@ char *ReadChar(char *s, int i)
 x0y0x0y onde x é o inverso de y. (se x = "12221122", y ="22112221"). Não
 pode usar memória auxiliar somente usar as funções do TAD (stkCreate, stkPop,
 stkPPush, stkDestroy)*/
+// Resolve qualquer problema de string do tipo x0y0x...
 int VerificaString(Stack *s, char *str, int n)
 {
     if (s != NULL && str != NULL && n > 0)
