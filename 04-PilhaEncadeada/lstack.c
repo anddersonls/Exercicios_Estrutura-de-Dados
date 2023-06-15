@@ -1,6 +1,6 @@
 /*------------------------------------------------
-cqueue.c
-Arquivo com a especificação para o TAD Fila Circular
+lstack.c
+Arquivo com a especificação para o TAD Pilha Encadeada
 ---------------------------------------------------
 Autor: Anderson Lopes Silva
 May/2023
@@ -47,7 +47,9 @@ int sllPush(SLList *l, void *data)
     {
         newnode = (SLNode *)malloc(sizeof(SLNode));
         if (newnode != NULL)
+        {
             newnode->data = data;
+        }
         newnode->next = l->first;
         l->first = newnode;
         return TRUE;

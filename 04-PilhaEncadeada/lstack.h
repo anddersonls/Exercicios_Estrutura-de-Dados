@@ -1,5 +1,5 @@
 /*------------------------------------------------
-lstack.c
+lstack.h
 Arquivo com a definição das funções do TAD Pilha
 Encadeada (Lista que se comporta como Pilha)
 ---------------------------------------------------
