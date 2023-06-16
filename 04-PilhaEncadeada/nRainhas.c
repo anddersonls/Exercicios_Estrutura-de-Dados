@@ -14,101 +14,119 @@ June/2023
 
 #define TRUE 1
 #define FALSE 0
-#define n 8
 
-typedef struct _posicao_
+// ESTRUTURA DA POSICAO DA RAINHA
+typedef struct _rainha_
 {
     int lin, col;
+} Rainha;
+
+// ESTRUTURA DA POSSIVEL POSICAO DA RAINHA
+typedef struct _posicao_
+{
+    int i, j;
 } Posicao;
+
+void nRainhas(SLList *ls, int n);
+int EPosPossivel(SLNode *cur, Posicao *pos, int n);
+void adicionaRainha(SLList *ls, Posicao *pos);
+void retiraRainhaAnterior(SLList *ls, Posicao *pos);
+void desenhaTabuleiro(SLList *ls, int n);
 
 int main(void)
 {
-    SLList *ls;
-    ls = sllCreate();
-    SLNode *cur, *data;
-    Posicao *pos;
-    int i = 0, j = 0, achou = TRUE, coluna, linha, cont = 0;
-    cur = ls->first;
+    int n, opcao;
 
-    while (i < n && cont < n)
+    while (opcao != 2)
     {
-        while (cur != NULL)
+        printf("\n\n|------------------------------------------------|\n");
+        printf("|                      MENU                      |\n");
+        printf("|------------------------------------------------|\n");
+        printf("|| 1. Distribuir Rainhas no Tabuleiro NxN\n");
+        printf("|| 2. Sair\n");
+        printf("Digite sua opcao: ");
+        scanf("%d", &opcao);
+
+        switch (opcao)
         {
-            pos = (Posicao *)cur->data;
-            printf("lin: %d , col: %d\n", pos->lin, pos->col);
-            printf("i: %d , j: %d\n\n", i, j);
-            if (pos->col == j)
+        case 1:
+            printf("Digite o tamanho do tabuleiro (NxN): ");
+            scanf("%d", &n);
+            printf("\n");
+            if (n > 3)
             {
-                achou = FALSE;
-            }
-            linha = i;
-            coluna = j;
-            while (linha >= 0 && coluna < n)
-            {
-                if (coluna == pos->col && linha == pos->lin)
-                {
-                    achou = FALSE;
-                }
-                linha -= 1;
-                coluna += 1;
-            }
-            linha = i;
-            coluna = j;
-            while (linha >= 0 && coluna >= 0)
-            {
-                if (coluna == pos->col && linha == pos->lin)
-                {
-                    achou = FALSE;
-                }
-                linha -= 1;
-                coluna -= 1;
-            }
-            if (cur->next != NULL)
-            {
-                cur = cur->next;
+                SLList *ls;
+                ls = sllCreate();
+                nRainhas(ls, n);
             }
             else
             {
-                break;
+                printf("Nao foi possivel distribuir %d rainhas em um tabuleiro %dx%d!", n, n, n);
             }
+            break;
+        case 2:
+            break;
+        default:
+            printf("Digite uma opcao valida!");
         }
-        if (achou)
+    }
+
+    printf("\nObrigado por utilizar meu codigo :) !");
+}
+
+int EPosPossivel(SLNode *cur, Posicao *pos, int n)
+{
+    int achou = TRUE, coluna, linha;
+    Rainha *rainha;
+
+    while (cur != NULL)
+    {
+        rainha = (Rainha *)cur->data;
+        // printf("lin: %d , col: %d\n", pos->lin, pos->col);
+        // printf("i: %d , j: %d\n\n", i, j);
+        if (rainha->col == pos->j)
         {
-            Posicao *p = (Posicao *)malloc(sizeof(Posicao));
-            p->col = j;
-            p->lin = i;
-            sllPush(ls, (void *)p);
-            j = 0;
-            i++;
-            cont++;
+            achou = FALSE;
         }
-        else if (achou == FALSE && j >= n - 1)
+        linha = pos->i;
+        coluna = pos->j;
+        while (linha >= 0 && coluna < n)
         {
-            printf("\noi\n");
-            i--;
-            pos = (Posicao *)sllPop(ls);
-            j = pos->col + 1;
-            cont--;
-            while (j > n - 1)
+            if (coluna == rainha->col && linha == rainha->lin)
             {
-                printf("%d %d\n\n", i, j);
-                i--;
-                pos = (Posicao *)sllPop(ls);
-                j = pos->col + 1;
-                cont--;
+                achou = FALSE;
             }
+            linha -= 1;
+            coluna += 1;
+        }
+        linha = pos->i;
+        coluna = pos->j;
+        while (linha >= 0 && coluna >= 0)
+        {
+            if (coluna == rainha->col && linha == rainha->lin)
+            {
+                achou = FALSE;
+            }
+            linha -= 1;
+            coluna -= 1;
+        }
+        if (cur->next != NULL)
+        {
+            cur = cur->next;
         }
         else
         {
-            j++;
+            break;
         }
-        achou = TRUE;
-        cur = ls->first;
     }
-    printf("----------------------------------\n");
-    Posicao *p;
+    return achou;
+}
+
+void desenhaTabuleiro(SLList *ls, int n)
+{
+    Rainha *pos;
+    SLNode *cur;
     cur = ls->first;
-    cont = n;
     char matriz[n][n];
 
     for (int i = 0; i < n; i++)
@@ -119,12 +137,11 @@ int main(void)
         }
     }
 
-    while (cont > 0)
+    for (int i = 0; i < n; i++)
     {
-        p = (Posicao *)cur->data;
-        matriz[p->lin][p->col] = 'O';
+        pos = (Rainha *)cur->data;
+        matriz[pos->lin][pos->col] = 'O';
         cur = cur->next;
-        cont--;
     }
 
     for (int i = 0; i < n; i++)
@@ -135,4 +152,57 @@ int main(void)
         }
         printf("\n");
     }
+}
+
+void adicionaRainha(SLList *ls, Posicao *pos)
+{
+    Rainha *novaPos = (Rainha *)malloc(sizeof(Rainha));
+    novaPos->col = pos->j;
+    novaPos->lin = pos->i;
+    sllPush(ls, (void *)novaPos);
+}
+
+void retiraRainhaAnterior(SLList *ls, Posicao *pos)
+{
+    pos->i--;
+    Rainha *rainha;
+    rainha = (Rainha *)sllPop(ls);
+    pos->j = rainha->col + 1;
+}
+
+void nRainhas(SLList *ls, int n)
+{
+    SLNode *cur;
+    int achou = TRUE;
+    cur = ls->first;
+    Posicao posicao;
+    Posicao *pos = &posicao;
+    pos->i = 0;
+    pos->j = 0;
+
+    while (pos->i < n)
+    {
+        achou = EPosPossivel(cur, pos, n);
+        if (achou)
+        {
+            adicionaRainha(ls, pos);
+            pos->j = 0;
+            pos->i++;
+        }
+        else if (achou == FALSE && pos->j >= n - 1)
+        {
+            retiraRainhaAnterior(ls, pos);
+            while (pos->j > n - 1)
+            {
+                retiraRainhaAnterior(ls, pos);
+            }
+        }
+        else
+        {
+            pos->j++;
+        }
+        achou = TRUE;
+        cur = ls->first;
+    }
+    desenhaTabuleiro(ls, n);
 }
