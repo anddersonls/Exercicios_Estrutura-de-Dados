@@ -27,25 +27,16 @@ int main(void)
     ls = sllCreate();
     SLNode *cur, *data;
     Posicao *pos;
-    int i = 0, j = 0, achou = FALSE, coluna, linha, cont = 0;
+    int i = 0, j = 0, achou = TRUE, coluna, linha, cont = 0;
+    cur = ls->first;
 
-    if (ls->first == NULL)
+    while (i < n && cont < n)
     {
-        Posicao *p = (Posicao *)malloc(sizeof(Posicao));
-        p->col = 0;
-        p->lin = 0;
-        sllPush(ls, (void *)p);
-        i++;
-    }
-
-    while (i < n && j < n)
-    {
-        cur = ls->first;
-        while (cur->next != NULL || cur == ls->first)
+        while (cur != NULL)
         {
             pos = (Posicao *)cur->data;
             printf("lin: %d , col: %d\n", pos->lin, pos->col);
-            printf("i: %d , j: %d\n", i, j);
+            printf("i: %d , j: %d\n\n", i, j);
             if (pos->col == j)
             {
                 achou = FALSE;
@@ -76,27 +67,72 @@ int main(void)
             {
                 cur = cur->next;
             }
-            if (achou)
+            else
             {
-                Posicao *p = (Posicao *)malloc(sizeof(Posicao));
-                p->col = j;
-                p->lin = i;
-                sllPush(ls, (void *)p);
-                j = 0;
-                i++;
+                break;
             }
-            achou = TRUE;
+        }
+        if (achou)
+        {
+            Posicao *p = (Posicao *)malloc(sizeof(Posicao));
+            p->col = j;
+            p->lin = i;
+            sllPush(ls, (void *)p);
+            j = 0;
+            i++;
+            cont++;
+        }
+        else if (achou == FALSE && j >= n - 1)
+        {
+            printf("\noi\n");
+            i--;
+            pos = (Posicao *)sllPop(ls);
+            j = pos->col + 1;
+            cont--;
+            while (j > n - 1)
+            {
+                printf("%d %d\n\n", i, j);
+                i--;
+                pos = (Posicao *)sllPop(ls);
+                j = pos->col + 1;
+                cont--;
+            }
+        }
+        else
+        {
             j++;
         }
-        printf("----------------------------------\n");
-        Posicao *p;
+        achou = TRUE;
         cur = ls->first;
-        cont = 8;
-        while (cont >= 0)
+    }
+    printf("----------------------------------\n");
+    Posicao *p;
+    cur = ls->first;
+    cont = n;
+    char matriz[n][n];
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
         {
-            p = (Posicao *)cur->data;
-            printf("%d %d\n", p->lin, p->col);
-            cur = cur->next;
-            cont--;
+            matriz[i][j] = 'X';
         }
     }
+
+    while (cont > 0)
+    {
+        p = (Posicao *)cur->data;
+        matriz[p->lin][p->col] = 'O';
+        cur = cur->next;
+        cont--;
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            printf(" %c ", matriz[i][j]);
+        }
+        printf("\n");
+    }
+}
