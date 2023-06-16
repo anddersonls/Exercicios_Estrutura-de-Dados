@@ -27,7 +27,7 @@ typedef struct _posicao_
     int i, j;
 } Posicao;
 
-void nRainhas(SLList *ls, int n);
+void nRainhas(int n);
 int EPosPossivel(SLNode *cur, Posicao *pos, int n);
 void adicionaRainha(SLList *ls, Posicao *pos);
 void retiraRainhaAnterior(SLList *ls, Posicao *pos);
@@ -42,7 +42,7 @@ int main(void)
         printf("\n\n|------------------------------------------------|\n");
         printf("|                      MENU                      |\n");
         printf("|------------------------------------------------|\n");
-        printf("|| 1. Distribuir Rainhas no Tabuleiro NxN\n");
+        printf("|| 1. Distribuir N Rainhas no Tabuleiro NxN\n");
         printf("|| 2. Sair\n");
         printf("Digite sua opcao: ");
         scanf("%d", &opcao);
@@ -55,9 +55,7 @@ int main(void)
             printf("\n");
             if (n > 3)
             {
-                SLList *ls;
-                ls = sllCreate();
-                nRainhas(ls, n);
+                nRainhas(n);
             }
             else
             {
@@ -74,13 +72,14 @@ int main(void)
     printf("\nObrigado por utilizar meu codigo :) !");
 }
 
-void nRainhas(SLList *ls, int n)
+void nRainhas(int n)
 {
+    SLList *ls;
+    ls = sllCreate();
     SLNode *cur;
-    int achou = TRUE;
     cur = ls->first;
-    Posicao posicao;
-    Posicao *pos = &posicao;
+    int achou = TRUE;
+    Posicao *pos;
     pos->i = 0;
     pos->j = 0;
 
@@ -119,8 +118,6 @@ int EPosPossivel(SLNode *cur, Posicao *pos, int n)
     while (cur != NULL)
     {
         rainha = (Rainha *)cur->data;
-        // printf("lin: %d , col: %d\n", pos->lin, pos->col);
-        // printf("i: %d , j: %d\n\n", i, j);
         if (rainha->col == pos->j)
         {
             achou = FALSE;
