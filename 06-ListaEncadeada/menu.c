@@ -119,7 +119,7 @@ int main(void)
                 printf("\nApos qual item voce deseja inserir esse elemento: ");
                 scanf("%d", &spec->cod);
 
-                teste = sllInserftAfterSpecQuery(sll, (void *)spec, (void *)a, cmp);
+                teste = sllInserftAfterSpecQuery(sll, (void *)&spec->cod, (void *)a, cmp);
                 if (teste == TRUE)
                 {
                     printf("\nElemento inserido!");
@@ -141,10 +141,10 @@ int main(void)
                 Aluno *spec = (Aluno *)malloc(sizeof(Aluno));
                 printf("\nAdicione item na lista: ");
                 scanf("%d", &a->cod);
-                printf("\nApos qual item voce deseja inserir esse elemento: ");
+                printf("\nAntes qual item voce deseja inserir esse elemento: ");
                 scanf("%d", &spec->cod);
 
-                teste = sllInserftAfterSpecQuery(sll, (void *)spec, (void *)a, cmp);
+                teste = sllInsertBefSpec(sll, (void *)&spec->cod, (void *)a, cmp);
                 if (teste == TRUE)
                 {
                     printf("\nElemento inserido!");
@@ -170,7 +170,7 @@ int main(void)
                 }
                 else
                 {
-                    printf("\nNao foi possivel retirar o elemento do topo da lista!");
+                    printf("\nNao foi possivel retirar o elemento da lista!");
                 }
             }
             else
@@ -189,7 +189,7 @@ int main(void)
                 }
                 else
                 {
-                    printf("\nNao foi possivel retirar o elemento do topo da lista!");
+                    printf("\nNao foi possivel retirar o elemento da lista!");
                 }
             }
             else
@@ -200,11 +200,11 @@ int main(void)
         case 8:
             if (listaCriada)
             {
-                Aluno *spec, *a;
-                spec = (Aluno *)sllRemoveFirst(sll);
+                Aluno *spec = (Aluno *)malloc(sizeof(Aluno));
+                Aluno *a;
                 printf("\nDigite o elemento voce deseja retirar: ");
-                scanf("%d", &a->cod);
-                a = sllRemoveSpec(sll, (void *)spec, cmp);
+                scanf("%d", &spec->cod);
+                a = sllRemoveSpec(sll, (void *)&spec->cod, cmp);
 
                 if (a != NULL)
                 {
@@ -302,7 +302,10 @@ int main(void)
 
 int cmp(void *data, void *key)
 {
-    if (data == key)
+    int *id = (int *)data;
+    int *chave = (int *)key;
+
+    if (*id == *chave)
     {
         return TRUE;
     }

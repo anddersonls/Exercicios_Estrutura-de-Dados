@@ -122,7 +122,7 @@ int sllInsertLast(SLList *l, void *data)
 int sllInserftAfterSpecQuery(SLList *l, void *key, void *data, int (*cmp)(void *, void *))
 {
     SLNode *spec, *newnode;
-    int stat;
+    int stat = FALSE;
     if (l != NULL)
     {
         if (l->first != NULL)
@@ -153,7 +153,7 @@ int sllInserftAfterSpecQuery(SLList *l, void *key, void *data, int (*cmp)(void *
 int sllInsertBefSpec(SLList *l, void *key, void *data, int (*cmp)(void *, void *))
 {
     SLNode *prev, *spec;
-    int stat;
+    int stat = FALSE;
     if (l != NULL)
     {
         if (l->first != NULL)
@@ -187,6 +187,7 @@ int sllInsertBefSpec(SLList *l, void *key, void *data, int (*cmp)(void *, void *
             }
         }
     }
+    return FALSE;
 }
 
 void *sllRemoveFirst(SLList *l)
@@ -209,7 +210,8 @@ void *sllRemoveFirst(SLList *l)
 
 void *sllRemoveLast(SLList *l)
 {
-    SLNode *last, *prev, *data;
+    SLNode *last, *prev;
+    void *data;
     if (l != NULL)
     {
         if (l->first != NULL)
@@ -222,7 +224,14 @@ void *sllRemoveLast(SLList *l)
                 last = last->next;
             }
             data = last->data;
-            prev->next = NULL;
+            if (prev != NULL)
+            {
+                prev->next = NULL;
+            }
+            else
+            {
+                l->first = NULL;
+            }
             free(last);
             return data;
         }
@@ -233,7 +242,7 @@ void *sllRemoveLast(SLList *l)
 void *sllRemoveSpec(SLList *l, void *key, int (*cmp)(void *, void *))
 {
     SLNode *spec, *prev, *data;
-    int stat;
+    int stat = FALSE;
     if (l != NULL)
     {
         if (l->first != NULL)
