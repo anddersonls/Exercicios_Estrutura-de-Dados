@@ -97,22 +97,17 @@ void *verificaNoCompartilhado(DLList *LL1, DLList *LL2)
             l2node = LL2->first;
             while (l2node->next != NULL && stat != TRUE)
             {
-                stat = cmp(l1node, l2node);
-                if (stat)
+                if (l1node == l2node)
                 {
-                    noCompartilhado = l1node;
-                    l1prev = l1node->prev;
-                    l2prev = l2node->prev;
+                    l1prev->next = NULL;
+                    l2node->prev = l2prev;
+                    return l1node;
                 }
+                l2prev = l2node;
                 l2node = l2node->next;
             }
+            l1prev = l1node;
             l1node = l1node->next;
-        }
-        if (stat == TRUE)
-        {
-            l1prev->next = NULL;
-            noCompartilhado->prev = l2prev;
-            return noCompartilhado;
         }
     }
     return NULL;
