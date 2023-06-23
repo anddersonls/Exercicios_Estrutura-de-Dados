@@ -23,19 +23,31 @@ void mostraLista(DLList *cdll);
 int ÉInversa(DLList *l1, DLList *l2);
 // Questão 1: Prova 2021.2
 void *RemoveKEsimo(DLList *l, int k);
+// Questao 2: Prova 2021.2
+int NumComuns(DLList *l1, DLList *l2, int (*cmp)(void *, void *));
 
 int main(void)
 {
     DLList *cdll = cdllCreate();
-    cdllInsertLast(cdll, (void *)3);
     cdllInsertLast(cdll, (void *)1);
     cdllInsertLast(cdll, (void *)7);
-    cdllInsertLast(cdll, (void *)9);
+    cdllInsertLast(cdll, (void *)3);
     cdllInsertLast(cdll, (void *)4);
+    cdllInsertLast(cdll, (void *)9);
+
+    DLList *cdll2 = cdllCreate();
+    cdllInsertLast(cdll2, (void *)3);
+    cdllInsertLast(cdll2, (void *)1);
+    cdllInsertLast(cdll2, (void *)7);
+    cdllInsertLast(cdll2, (void *)9);
+    cdllInsertLast(cdll2, (void *)4);
 
     mostraLista(cdll);
-    RemoveKEsimo(cdll, 1);
-    mostraLista(cdll);
+    mostraLista(cdll2);
+    // RemoveKEsimo(cdll, 1);
+    int teste;
+    teste = NumComuns(cdll, cdll2, cmp);
+    printf("%d", teste);
 }
 
 int cmp(void *data, void *key)
@@ -43,7 +55,7 @@ int cmp(void *data, void *key)
     int *id = (int *)data;
     int *chave = (int *)key;
 
-    if (*id == *chave)
+    if (id == chave)
     {
         return TRUE;
     }
@@ -153,4 +165,38 @@ void *RemoveKEsimo(DLList *l, int k)
             }
         }
     }
+}
+
+// Questao 2: Prova 2021.2
+/*Escreva um algoritmo NumComuns (L1, L2) , que deve retornar um
+valor inteiro igual ao número de valores comuns às duas listas L1 e L2, que
+são circulares duplamente encadeadas.*/
+int NumComuns(DLList *l1, DLList *l2, int (*cmp)(void *, void *))
+{
+    if (l1 != NULL && l2 != NULL)
+    {
+        if (l1->first != NULL && l2->first != NULL)
+        {
+            int stat = FALSE, cont = 0;
+            DLNode *l1node, *l2node;
+            l1node = l1->first;
+            do
+            {
+                l2node = l2->first;
+                stat = FALSE;
+                do
+                {
+                    stat = cmp(l2node->data, l1node->data);
+                    if (stat)
+                    {
+                        cont++;
+                    }
+                    l2node = l2node->next;
+                } while (l2node != l2->first && stat != TRUE);
+                l1node = l1node->next;
+            } while (l1node != l1->first);
+            return cont;
+        }
+    }
+    return 0;
 }
