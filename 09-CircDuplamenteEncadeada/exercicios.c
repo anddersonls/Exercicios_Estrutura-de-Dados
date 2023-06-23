@@ -21,6 +21,8 @@ int cmp(void *data, void *key);
 void mostraLista(DLList *cdll);
 // Questao 1: Prova 2022.1
 int ÉInversa(DLList *l1, DLList *l2);
+// Questão 1: Prova 2021.2
+void *RemoveKEsimo(DLList *l, int k);
 
 int main(void)
 {
@@ -31,6 +33,8 @@ int main(void)
     cdllInsertLast(cdll, (void *)9);
     cdllInsertLast(cdll, (void *)4);
 
+    mostraLista(cdll);
+    RemoveKEsimo(cdll, 1);
     mostraLista(cdll);
 }
 
@@ -109,4 +113,44 @@ int ÉInversa(DLList *l1, DLList *l2)
         }
     }
     return -2;
+}
+
+// Questão 1: Prova 2021.2
+/*Escreva um algoritmo para remover o k-ésimo nó de uma lista
+circular duplamente encadeada l. */
+void *RemoveKEsimo(DLList *l, int k)
+{
+    if (l != NULL)
+    {
+        if (l->first != NULL)
+        {
+            int cont = 1;
+            DLNode *spec, *snext, *sprev;
+            spec = l->first;
+            while (spec->next != l->first && cont != k)
+            {
+                spec = spec->next;
+                cont++;
+            }
+            if (cont == k)
+            {
+                if (spec->next == l->first && spec->prev == l->first && spec == l->first)
+                {
+                    l->first = NULL;
+                }
+                else
+                {
+                    snext = spec->next;
+                    sprev = spec->prev;
+                    sprev->next = snext;
+                    snext->prev = sprev;
+                    if (spec == l->first)
+                    {
+                        l->first = snext;
+                    }
+                }
+                free(spec);
+            }
+        }
+    }
 }
