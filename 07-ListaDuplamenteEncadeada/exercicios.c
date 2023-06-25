@@ -23,6 +23,8 @@ void mostrarlista(DLList *dll);
 void *verificaNoCompartilhado(DLList *LL1, DLList *LL2);
 // Questao 2: Prova 2022.1
 void PegaElementosIguais(DLList *l1, DLList *l2, DLList *l3);
+// Questão 2: Prova 2017.1
+int DllCulmulativeSum(DLList *l1, int i, int j);
 
 int main(void)
 {
@@ -42,8 +44,9 @@ int main(void)
     dllInsertAsLast(dll2, (void *)8);
 
     mostrarlista(dll);
-    printf("\n\n");
-    mostrarlista(dll2);
+    DllCulmulativeSum(dll, 1, 5);
+    mostrarlista(dll);
+    // mostrarlista(dll2);
 }
 
 int cmp(void *data, void *key)
@@ -75,6 +78,7 @@ void mostrarlista(DLList *dll)
             printf("\nElemento %d: %d", aux, item);
             node = node->next;
         }
+        printf("\n\n");
     }
     else
     {
@@ -151,10 +155,82 @@ void PegaElementosIguais(DLList *l1, DLList *l2, DLList *l3)
                         l3node->next = NULL;
                         break;
                     }
-                                }
+                }
                 l2node = l2node->next;
             }
             l1node = l2node->next;
         }
     }
+}
+
+// Questão 2: Prova 2017.1
+/* Faça um algoritmo que recebe uma lista linear duplamente encadeada
+e dois numeros inteiros i e j. O algoritmo deve trocar a posicao do
+i-esimo nó da lista com o j-esimo nó da lista. Não pode alocar novos nós.*/
+int DllCulmulativeSum(DLList *l1, int i, int j)
+{
+    if (l1 != NULL)
+    {
+        if (l1->first != NULL)
+        {
+            int aux = 1;
+            DLNode *node, *inode, *jnode, *auxnode;
+            inode = NULL;
+            jnode = NULL;
+            node = l1->first;
+            while (node != NULL)
+            {
+                if (aux == i)
+                {
+                    inode = node;
+                }
+                if (aux == j)
+                {
+                    jnode = node;
+                }
+                aux++;
+                node = node->next;
+            }
+            if (inode != NULL && jnode != NULL)
+            {
+                // setando os nos anteriores e posteriores dos que serão trocados
+                if (inode->prev != NULL)
+                {
+                    inode->prev->next = jnode;
+                }
+                else
+                {
+                    l1->first = jnode;
+                }
+                if (jnode->prev != NULL)
+                {
+                    jnode->prev->next = inode;
+                }
+                else
+                {
+                    l1->first = inode;
+                }
+                if (inode->next != NULL)
+                {
+                    inode->next->prev = jnode;
+                }
+                if (jnode->next != NULL)
+                {
+                    jnode->next->prev = inode;
+                }
+
+                // setando os next
+                auxnode = inode->next;
+                inode->next = jnode->next;
+                jnode->next = auxnode;
+                // setando os prev
+                auxnode = inode->prev;
+                inode->prev = jnode->prev;
+                jnode->prev = auxnode;
+
+                return TRUE;
+            }
+        }
+    }
+    return FALSE;
 }
