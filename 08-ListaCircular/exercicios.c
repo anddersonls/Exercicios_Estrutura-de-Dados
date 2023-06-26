@@ -23,6 +23,8 @@ void mostrarlista(SLList *sll);
 int lcseGetNumberOfOcurrences(SLList *l, void *key, int (*cmp)(void *, void *));
 // Questao 2: 20XX(6).pdf
 void lcesAppendList(SLList *l1, SLList *l2);
+// Questao 3: 20XX(3).pdf
+int intercalaListas(SLList *l1, SLList *l2);
 
 int main(void)
 {
@@ -30,9 +32,9 @@ int main(void)
     csll = csllCreate();
     csllInsertLast(csll, (void *)8);
     csllInsertLast(csll, (void *)2);
-    csllInsertLast(csll, (void *)8);
+    csllInsertLast(csll, (void *)5);
     csllInsertLast(csll, (void *)7);
-    csllInsertLast(csll, (void *)8);
+    csllInsertLast(csll, (void *)2);
     SLList *csll2;
     csll2 = csllCreate();
     csllInsertLast(csll2, (void *)1);
@@ -49,7 +51,9 @@ int main(void)
     int teste;
     // teste = leseGetNumberOfOcurrences(csll, (void *)8, cmp);
     // printf("\n\nNumero de repeticoes do elemento: %d", teste);
-    lcesAppendList(csll, csll2);
+    // lcesAppendList(csll, csll2);
+    intercalaListas(csll, csll2);
+    mostrarlista(csll);
 }
 
 void mostrarlista(SLList *csll)
@@ -146,4 +150,35 @@ void lcesAppendList(SLList *l1, SLList *l2)
         l2_node->next = l1->first;
         mostrarlista(l1);
     }
+}
+
+// Questao 2: Prova 20XX(3)
+/*Receber duas listas circulares simplesmente encadeadas (l1 e l2) incluir todos os nós de
+l2 em l1 de maneira intercalada. Não pode alocar novos nós. A lista l1 ficará com um nó de l1
+sempre seguido por um nó de l2.*/
+int intercalaListas(SLList *l1, SLList *l2)
+{
+    if (l1 != NULL && l2 != NULL)
+    {
+        if (l1->first != NULL && l2->first != NULL)
+        {
+            SLNode *cur1, *cur2, *next2;
+            cur1 = l1->first;
+            cur2 = l2->first;
+            while (cur1->next != l1->first)
+            {
+                next2 = cur2->next;
+                cur2->next = cur1->next;
+                cur1->next = cur2;
+                cur2 = next2;
+
+                cur1 = cur1->next->next;
+            }
+            cur1->next = cur2;
+            cur2->next = l1->first;
+
+            return TRUE;
+        }
+    }
+    return FALSE;
 }
