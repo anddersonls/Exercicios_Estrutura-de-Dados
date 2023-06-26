@@ -25,6 +25,8 @@ int ÉInversa(DLList *l1, DLList *l2);
 void *RemoveKEsimo(DLList *l, int k);
 // Questao 2: Prova 2021.2
 int NumComuns(DLList *l1, DLList *l2, int (*cmp)(void *, void *));
+// Questao 3: Prova 20XX(2)
+int removeOCaraEOsVizinhos(DLList *l, void *key, int (*cmp)(void *, void *));
 
 int main(void)
 {
@@ -43,11 +45,13 @@ int main(void)
     cdllInsertLast(cdll2, (void *)4);
 
     mostraLista(cdll);
-    mostraLista(cdll2);
-    // RemoveKEsimo(cdll, 1);
+    // mostraLista(cdll2);
+    //  RemoveKEsimo(cdll, 1);
     int teste;
-    teste = NumComuns(cdll, cdll2, cmp);
-    printf("%d", teste);
+    // teste = NumComuns(cdll, cdll2, cmp);
+    // printf("%d", teste);
+    removeOCaraEOsVizinhos(cdll, (void *)1, cmp);
+    mostraLista(cdll);
 }
 
 int cmp(void *data, void *key)
@@ -199,4 +203,59 @@ int NumComuns(DLList *l1, DLList *l2, int (*cmp)(void *, void *))
         }
     }
     return 0;
+}
+
+// Questao 3: Prova 20XX(2)
+/* Escreva um algoritmo que recebe uma lista circular duplamente encadeada L e
+remove um elemento especificado pela chave key, juntamente com seus dois vizinhos
+(proximo e anterior)*/
+int removeOCaraEOsVizinhos(DLList *l, void *key, int (*cmp)(void *, void *))
+{
+    if (l != NULL)
+    {
+        if (l->first != NULL)
+        {
+            int stat, cont = 1;
+            DLNode *cur, *node, *dir_node, *esq_node, *cur2;
+            cur = l->first;
+            stat = cmp(key, cur->data);
+            while (cur->next != l->first && stat != TRUE)
+            {
+                stat = cmp(key, cur->data);
+                node = cur;
+                cur = cur->next;
+            }
+            cur2 = l->first;
+            while (cur2->next != l->first)
+            {
+                cur2 = cur2->next;
+                cont++;
+            }
+            if (stat == TRUE || cmp(key, cur->data) == TRUE)
+            {
+                dir_node = node->next;
+                esq_node = node->prev;
+
+                if (cont < 4)
+                {
+                    l->first = NULL;
+                }
+                else
+                {
+                    if (node == l->first || esq_node == l->first || dir_node == l->first)
+                    {
+                        l->first = dir_node->next;
+                    }
+                    esq_node->prev->next = dir_node->next;
+                    dir_node->next->prev = esq_node->prev;
+                }
+
+                free(node);
+                free(dir_node);
+                free(esq_node);
+                return TRUE;
+            }
+        }
+    }
+    return FALSE;
 }

@@ -25,28 +25,30 @@ void *verificaNoCompartilhado(DLList *LL1, DLList *LL2);
 void PegaElementosIguais(DLList *l1, DLList *l2, DLList *l3);
 // Questão 2: Prova 2017.1
 int DllCulmulativeSum(DLList *l1, int i, int j);
+// Questão 2: Prova 20XX(1)
+int inverteDLList(DLList *l1, DLList *l2);
 
 int main(void)
 {
     DLList *dll;
     dll = dllCreate();
-    dllInsertAsLast(dll, (void *)7);
-    dllInsertAsLast(dll, (void *)2);
-    dllInsertAsLast(dll, (void *)1);
-    dllInsertAsLast(dll, (void *)6);
-    dllInsertAsLast(dll, (void *)5);
+    dllInsertAsFirst(dll, (void *)7);
+    dllInsertAsFirst(dll, (void *)2);
+    dllInsertAsFirst(dll, (void *)1);
+    dllInsertAsFirst(dll, (void *)6);
+    dllInsertAsFirst(dll, (void *)5);
     DLList *dll2;
     dll2 = dllCreate();
-    dllInsertAsLast(dll2, (void *)5);
+    /*dllInsertAsLast(dll2, (void *)5);
     dllInsertAsLast(dll2, (void *)2);
     dllInsertAsLast(dll2, (void *)9);
     dllInsertAsLast(dll2, (void *)6);
-    dllInsertAsLast(dll2, (void *)8);
+    dllInsertAsLast(dll2, (void *)8);*/
 
     mostrarlista(dll);
-    DllCulmulativeSum(dll, 1, 5);
-    mostrarlista(dll);
-    // mostrarlista(dll2);
+    // DllCulmulativeSum(dll, 1, 5);
+    inverteDLList(dll, dll2);
+    mostrarlista(dll2);
 }
 
 int cmp(void *data, void *key)
@@ -230,6 +232,49 @@ int DllCulmulativeSum(DLList *l1, int i, int j)
 
                 return TRUE;
             }
+        }
+    }
+    return FALSE;
+}
+
+// Questao 2: Prova 20XX(1)
+/* Escreva um algoritmo Inverte(l1, l2) que retornte na lista L2
+todos os nós da lista l1 na ordem inversa em que estavam (ambas
+duplamente encadeada linear). não pode alocar novos nós nem usar
+uma outra estrutura de dados auxiliar*/
+int inverteDLList(DLList *l1, DLList *l2)
+{
+    if (l1 != NULL && l2 != NULL)
+    {
+        if (l1->first != NULL)
+        {
+            DLNode *cur, *last;
+            cur = l1->first;
+            while (cur->next != NULL)
+            {
+                cur = cur->next;
+            }
+            last = cur;
+            cur = l2->first;
+            while (last != NULL)
+            {
+                if (cur == l2->first)
+                {
+                    l2->first = last;
+                    cur = l2->first;
+                    cur->prev = NULL;
+                    cur->next = NULL;
+                }
+                else
+                {
+                    cur->next = last;
+                    cur->prev = last->next;
+                    cur = cur->next;
+                }
+
+                last = last->prev;
+            }
+            return TRUE;
         }
     }
     return FALSE;
