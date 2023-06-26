@@ -152,7 +152,7 @@ void lcesAppendList(SLList *l1, SLList *l2)
     }
 }
 
-// Questao 2: Prova 20XX(3)
+// Questao 3: Prova 20XX(3)
 /*Receber duas listas circulares simplesmente encadeadas (l1 e l2) incluir todos os nós de
 l2 em l1 de maneira intercalada. Não pode alocar novos nós. A lista l1 ficará com um nó de l1
 sempre seguido por um nó de l2.*/
