@@ -21,6 +21,10 @@ void mostraLista(SLList *sll);
 SLList *sllCulmulativeSum(SLList *l1, int (*getvalue)(void *));
 // Questao 3: Prova 2017.1
 int InSub(SLList *l1, SLList *l2, int i1, int i2, int len);
+// Questao 1: Prova 20XX(1)
+int promoveElemento(SLList *l, int n);
+// Questao 3: Prova 20XX
+int removeNosDeOrdemImpar(SLList *l);
 
 int main(void)
 {
@@ -32,7 +36,7 @@ int main(void)
     sllInsertLast(sll, (void *)2);
     sllInsertLast(sll, (void *)1);
     sllInsertLast(sll, (void *)9);
-    sllInsertLast(sll, (void *)5);
+    //    sllInsertLast(sll, (void *)5);
 
     sllInsertLast(sll2, (void *)3);
     sllInsertLast(sll2, (void *)4);
@@ -40,9 +44,12 @@ int main(void)
     sllInsertLast(sll2, (void *)6);
     sllInsertLast(sll2, (void *)1);
 
-    int teste;
-    teste = InSub(sll, sll2, 2, 1, 4);
-    printf("teste: %d", teste);
+    // int teste;
+    // teste = InSub(sll, sll2, 2, 1, 4);
+    // printf("teste: %d", teste);
+    mostraLista(sll);
+    // promoveElemento(sll, 5);
+    removeNosDeOrdemImpar(sll);
     mostraLista(sll);
 }
 
@@ -173,6 +180,113 @@ int InSub(SLList *l1, SLList *l2, int i1, int i2, int len)
                 l1node->next = auxnode;
                 return TRUE;
             }
+        }
+    }
+    return FALSE;
+}
+
+// Questao 1: Prova 20XX(1)
+/* Escreva um algoritmo que recebe uma fila armazenada em uma lista linear simplesmete
+encadeada e promove o ultimo elemento da fila colocando-o n posições para frente e pune
+o primeiro elemento colocando-o uma posição para tras. Não pode alocar novos nós de lista*/
+int promoveElemento(SLList *l, int n)
+{
+    if (n > 0 && l != NULL)
+    {
+        if (l->first != NULL)
+        {
+            int cont = 1;
+            SLNode *last, *prev, *first, *cur;
+            first = l->first;
+            last = first;
+            while (last->next != NULL)
+            {
+                prev = last;
+                last = last->next;
+                cont++;
+            }
+            // promovento o last n posições
+            if (n >= cont - 1)
+            {
+                last->next = l->first;
+                l->first = last;
+            }
+            else
+            {
+                int novPos = cont - n - 1;
+                cur = l->first;
+                novPos--;
+                while (cur->next != NULL && novPos > 0)
+                {
+                    cur = cur->next;
+                    novPos--;
+                }
+                last->next = cur->next;
+                cur->next = last;
+            }
+            prev->next = NULL;
+
+            // punindo o first
+            cur = first->next;
+            first->next = cur->next;
+            cur->next = first;
+            if (first == l->first)
+            {
+                l->first = cur;
+            }
+            else
+            {
+                l->first->next = cur;
+            }
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+// Questao 3: Prova 20XX
+/*Escreva um algoritmo que recebe uma lista linear simplesmente encadeada
+e elimina os nós de ordem ímpar (primeiro, terceiro, quinto...)*/
+int removeNosDeOrdemImpar(SLList *l)
+{
+    if (l != NULL)
+    {
+        if (l->first != NULL)
+        {
+            int ordem = 1;
+            SLNode *cur, *prev, *node;
+            cur = l->first;
+            if (cur->next == NULL)
+            {
+                l->first = NULL;
+            }
+            else
+            {
+                while (cur != NULL)
+                {
+                    if (ordem % 2 == 1)
+                    {
+                        node = cur;
+                        if (cur == l->first)
+                        {
+
+                            l->first = cur->next;
+                        }
+                        else
+                        {
+                            prev->next = cur->next;
+                        }
+                    }
+                    else
+                    {
+                        free(node);
+                    }
+                    ordem++;
+                    prev = cur;
+                    cur = cur->next;
+                }
+            }
+            return TRUE;
         }
     }
     return FALSE;
