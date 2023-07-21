@@ -138,8 +138,62 @@ TNode *abpRemoveMaior(TNode *t, int (*cmp)(void *, void *), void **data)
                 return NULL;
             }
         }
-        *data = NULL;
-        return NULL;
+        return t;
     }
 }
+
+void *abpQuery(TNode *t, void *key, int (*cmp)(void *, void *))
+{
+    int stat;
+    if (t != NULL)
+    {
+        stat = cmp(key, t->data);
+        if (stat == 0)
+        {
+            return t->data;
+        }
+        else if (stat < 0)
+        {
+            return abpQuery(t->left, key, cmp);
+        }
+        else
+        {
+            return abpQuery(t->right, key, cmp);
+        }
+    }
+    return NULL;
+}
+
+void *abpGetMin(TNode *t)
+{
+    if (t != NULL)
+    {
+        if (t->left != NULL)
+        {
+            return abpGetMin(t->left);
+        }
+        else
+        {
+            return t->data;
+        }
+    }
+    return NULL;
+}
+
+void *abpGetMax(TNode *t)
+{
+    if (t != NULL)
+    {
+        if (t->right != NULL)
+        {
+            return abpGetMax(t->right);
+        }
+        else
+        {
+            return t->data;
+        }
+    }
+    return NULL;
+}
+
 #endif

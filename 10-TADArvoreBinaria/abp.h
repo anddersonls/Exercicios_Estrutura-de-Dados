@@ -17,9 +17,17 @@ typedef struct t_node
     struct t_node *right;
 } TNode;
 
+typedef struct _aluno_
+{
+    int cod;
+} Aluno;
+
 TNode *abpInsert(TNode *t, void *data, int (*cmp)(void *, void *));
 void simetrico(TNode *t, void (*visit)(void *));
 TNode *abpRemove(TNode *t, void *key, int (*cmp)(void *, void *), void **data);
 TNode *abpRemoveMaior(TNode *t, int (*cmp)(void *, void *), void **data);
+void *abpQuery(TNode *t, void *key, int (*cmp)(void *, void *));
+void *abpGetMax(TNode *t);
+void *abpGetMin(TNode *t);
 
 #endif
