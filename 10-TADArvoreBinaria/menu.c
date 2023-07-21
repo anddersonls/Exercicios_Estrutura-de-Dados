@@ -75,8 +75,6 @@ int main(void)
         case 3:
             if (raiz != NULL)
             {
-                int *valor = (int *)raiz->data;
-                printf("%d", *valor);
                 simetrico(raiz, visit);
             }
             else
