@@ -22,6 +22,10 @@ int abpCalculaDiferencaMaiorParaMenor(TNode *t, int (*getvalue)(void *));
 int abpMaiorValor(TNode *t);
 int abpMenorValor(TNode *t);
 int getvalue(void *data);
+// PROVA 2017_1: QUESTÃO 2
+int abNumNosNaAlturaH(TNode *t, int h);
+// PROVA 2021_2: QUESTÃO 3
+int abCalcNumNosFolha(TNode *t);
 
 int main(void)
 {
@@ -43,7 +47,38 @@ int main(void)
 
     int teste;
     teste = abpCalculaDiferencaMaiorParaMenor(raiz, getvalue);
-    printf("Diferenca: %d", teste);
+    printf("\nDiferenca: %d", teste);
+
+    teste = abNumNosNaAlturaH(raiz, 2);
+    printf("\nNos na altura h: %d", teste);
+
+    teste = abCalcNumNosFolha(raiz);
+    printf("\nNumero de folhas: %d", teste);
+}
+
+int cmp(void *data, void *key)
+{
+    int *newdata = (int *)data;
+    int *node = (int *)key;
+
+    if (newdata > node)
+    {
+        return 1;
+    }
+    else if (newdata < node)
+    {
+        return -1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+void visit(void *data)
+{
+    int *item = (int *)data;
+    printf("\nItem: %d", item);
 }
 
 // PROVA 2017_1: QUESTÃO 3
@@ -97,18 +132,24 @@ int getvalue(void *data)
     return aux;
 }
 
-int cmp(void *data, void *key)
+// PROVA 2017_1: QUESTÃO 2
+/*Escreva um algoritmo que recebe a raiz de uma árvore binária e um número h
+e retorna o número de nós de uma árvore binária que tem uma altura h*/
+int abNumNosNaAlturaH(TNode *t, int h)
 {
-    int *newdata = (int *)data;
-    int *node = (int *)key;
-
-    if (newdata > node)
+    if (t != NULL)
     {
-        return 1;
-    }
-    else if (newdata < node)
-    {
-        return -1;
+        if (h == 0)
+        {
+            return 1;
+        }
+        else
+        {
+            int esq, dir;
+            esq = abNumNosNaAlturaH(t->left, h - 1);
+            dir = abNumNosNaAlturaH(t->right, h - 1);
+            return esq + dir + 1;
+        }
     }
     else
     {
@@ -116,8 +157,27 @@ int cmp(void *data, void *key)
     }
 }
 
-void visit(void *data)
+// PROVA 2021_2: QUESTÃO 3
+/*Implemente um algoritmo que recebe uma arvore binária e retorna o
+numero de nós de grau 0 (folhas) na arvore.*/
+int abCalcNumNosFolha(TNode *t)
 {
-    int *item = (int *)data;
-    printf("\nItem: %d", item);
+    if (t != NULL)
+    {
+        int soma = 0;
+        if (t->left == NULL && t->right == NULL)
+        {
+            return 1;
+        }
+        else
+        {
+            soma += abCalcNumNosFolha(t->left);
+            soma += abCalcNumNosFolha(t->right);
+            return soma;
+        }
+    }
+    else
+    {
+        return 0;
+    }
 }
