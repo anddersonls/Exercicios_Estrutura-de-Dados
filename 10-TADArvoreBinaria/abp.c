@@ -60,6 +60,26 @@ void simetrico(TNode *t, void (*visit)(void *))
     }
 }
 
+void preOrdem(TNode *t, void (*visit)(void *))
+{
+    if (t != NULL)
+    {
+        visit(t->data);
+        preOrdem(t->left, visit);
+        preOrdem(t->right, visit);
+    }
+}
+
+void posOrdem(TNode *t, void (*visit)(void *))
+{
+    if (t != NULL)
+    {
+        posOrdem(t->left, visit);
+        posOrdem(t->right, visit);
+        visit(t->data);
+    }
+}
+
 TNode *abpRemove(TNode *t, void *key, int (*cmp)(void *, void *), void **data)
 {
     void *data2;

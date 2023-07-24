@@ -24,6 +24,8 @@ typedef struct _aluno_
 
 TNode *abpInsert(TNode *t, void *data, int (*cmp)(void *, void *));
 void simetrico(TNode *t, void (*visit)(void *));
+void preOrdem(TNode *t, void (*visit)(void *));
+void posOrdem(TNode *t, void (*visit)(void *));
 TNode *abpRemove(TNode *t, void *key, int (*cmp)(void *, void *), void **data);
 TNode *abpRemoveMaior(TNode *t, int (*cmp)(void *, void *), void **data);
 void *abpQuery(TNode *t, void *key, int (*cmp)(void *, void *));
