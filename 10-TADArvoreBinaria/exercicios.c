@@ -28,10 +28,13 @@ int abNumNosNaAlturaH(TNode *t, int h);
 int abCalcNumNosFolha(TNode *t);
 // PROVA 2022_1: QUESTÃO 3
 int NumNosAlturaMaiorH(TNode *t, int h);
+// PROVA 2023_1(versão 1): QUESTÃO 3
+int abNumNosMenorQueH(TNode *t, int h);
 
 int main(void)
 {
     TNode *raiz = NULL;
+
     // 100, 50, 20, 10, 25, 80, 150, 110, 105, 170, 200
     raiz = abpInsert(raiz, (void *)100, cmp);
     raiz = abpInsert(raiz, (void *)50, cmp);
@@ -44,11 +47,11 @@ int main(void)
     raiz = abpInsert(raiz, (void *)105, cmp);
     raiz = abpInsert(raiz, (void *)170, cmp);
     raiz = abpInsert(raiz, (void *)200, cmp);
-    /*simetrico(raiz, visit);
+    simetrico(raiz, visit);
     printf("\n");
     posOrdem(raiz, visit);
     printf("\n");
-    preOrdem(raiz, visit);*/
+    preOrdem(raiz, visit);
 
     int teste;
     teste = abpCalculaDiferencaMaiorParaMenor(raiz, getvalue);
@@ -62,6 +65,9 @@ int main(void)
 
     teste = NumNosAlturaMaiorH(raiz, 2);
     printf("\nNos na arvore maior que altura h: %d", teste);
+
+    teste = abNumNosMenorQueH(raiz, 2);
+    printf("\nNos na arvore menor que altura h: %d", teste);
 }
 
 int cmp(void *data, void *key)
@@ -205,6 +211,28 @@ int NumNosAlturaMaiorH(TNode *t, int h)
             nnos = 1;
         }
         return esq + dir + nnos;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+// PROVA 2023_1(versão 1): QUESTÃO 3
+/*Escreva um algoritmo para calcular o número de nós de uma árvore binária que
+possui altura menor que h.*/
+int abNumNosMenorQueH(TNode *t, int h)
+{
+    if (t != NULL)
+    {
+        int esq, dir, num_nos = 0;
+        esq = abNumNosMenorQueH(t->left, h - 1);
+        dir = abNumNosMenorQueH(t->right, h - 1);
+        if (h > 0)
+        {
+            num_nos = 1;
+        }
+        return esq + dir + num_nos;
     }
     else
     {
