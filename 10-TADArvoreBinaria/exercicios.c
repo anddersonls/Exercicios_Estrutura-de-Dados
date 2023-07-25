@@ -26,19 +26,24 @@ int getvalue(void *data);
 int abNumNosNaAlturaH(TNode *t, int h);
 // PROVA 2021_2: QUESTÃO 3
 int abCalcNumNosFolha(TNode *t);
+// PROVA 2022_1: QUESTÃO 3
+int NumNosAlturaMaiorH(TNode *t, int h);
 
 int main(void)
 {
     TNode *raiz = NULL;
-
+    // 100, 50, 20, 10, 25, 80, 150, 110, 105, 170, 200
+    raiz = abpInsert(raiz, (void *)100, cmp);
+    raiz = abpInsert(raiz, (void *)50, cmp);
     raiz = abpInsert(raiz, (void *)20, cmp);
-    raiz = abpInsert(raiz, (void *)25, cmp);
     raiz = abpInsert(raiz, (void *)10, cmp);
-    raiz = abpInsert(raiz, (void *)5, cmp);
-    raiz = abpInsert(raiz, (void *)12, cmp);
-    raiz = abpInsert(raiz, (void *)22, cmp);
-    raiz = abpInsert(raiz, (void *)23, cmp);
-    raiz = abpInsert(raiz, (void *)11, cmp);
+    raiz = abpInsert(raiz, (void *)25, cmp);
+    raiz = abpInsert(raiz, (void *)80, cmp);
+    raiz = abpInsert(raiz, (void *)150, cmp);
+    raiz = abpInsert(raiz, (void *)110, cmp);
+    raiz = abpInsert(raiz, (void *)105, cmp);
+    raiz = abpInsert(raiz, (void *)170, cmp);
+    raiz = abpInsert(raiz, (void *)200, cmp);
     /*simetrico(raiz, visit);
     printf("\n");
     posOrdem(raiz, visit);
@@ -54,6 +59,9 @@ int main(void)
 
     teste = abCalcNumNosFolha(raiz);
     printf("\nNumero de folhas: %d", teste);
+
+    teste = NumNosAlturaMaiorH(raiz, 2);
+    printf("\nNos na arvore maior que altura h: %d", teste);
 }
 
 int cmp(void *data, void *key)
@@ -175,6 +183,28 @@ int abCalcNumNosFolha(TNode *t)
             soma += abCalcNumNosFolha(t->right);
             return soma;
         }
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+// PROVA 2022_1: QUESTÃO 3
+/*Escreva um algoritmo que recebe a raiz de uma arvore binária e um número h e
+retorna o número de nós de uma árvore binária que tem altura maior que h.*/
+int NumNosAlturaMaiorH(TNode *t, int h)
+{
+    if (t != NULL)
+    {
+        int esq, dir, nnos = 0;
+        esq = NumNosAlturaMaiorH(t->left, h - 1);
+        dir = NumNosAlturaMaiorH(t->right, h - 1);
+        if (h < 0)
+        {
+            nnos = 1;
+        }
+        return esq + dir + nnos;
     }
     else
     {
