@@ -30,6 +30,10 @@ int abCalcNumNosFolha(TNode *t);
 int NumNosAlturaMaiorH(TNode *t, int h);
 // PROVA 2023_1(versão 1): QUESTÃO 3
 int abNumNosMenorQueH(TNode *t, int h);
+// Questão 7: Lista de exercícios
+int abpGetAltura(TNode *t);
+// Quantidade de nós no nível n
+int abNumNosNoNivelN(TNode *t, int n);
 
 int main(void)
 {
@@ -68,6 +72,12 @@ int main(void)
 
     teste = abNumNosMenorQueH(raiz, 2);
     printf("\nNos na arvore menor que altura h: %d", teste);
+
+    teste = abpGetAltura(raiz);
+    printf("\nAltura: %d", teste);
+
+    teste = abNumNosNoNivelN(raiz, 3);
+    printf("\nNumero de nos no nivel n: %d", teste);
 }
 
 int cmp(void *data, void *key)
@@ -233,6 +243,51 @@ int abNumNosMenorQueH(TNode *t, int h)
             num_nos = 1;
         }
         return esq + dir + num_nos;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+// Questão 7: Lista de Exercícios
+/*Altura de uma árvore binária*/
+int abpGetAltura(TNode *t)
+{
+    if (t == NULL)
+    {
+        return -1;
+    }
+
+    int altEsq = abpGetAltura(t->left);
+    int altDir = abpGetAltura(t->right);
+
+    if (altEsq > altDir)
+    {
+        return altEsq + 1;
+    }
+    else
+    {
+        return altDir + 1;
+    }
+}
+
+// Quantidade de nós no nível n
+int abNumNosNoNivelN(TNode *t, int n)
+{
+    if (t != NULL)
+    {
+        if (n == 0)
+        {
+            return 1;
+        }
+        else
+        {
+            int esq, dir;
+            esq = abNumNosNoNivelN(t->left, n - 1);
+            dir = abNumNosNoNivelN(t->right, n - 1);
+            return esq + dir;
+        }
     }
     else
     {
