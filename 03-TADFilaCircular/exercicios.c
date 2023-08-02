@@ -52,8 +52,8 @@ int main()
     printf("\n");
 
     // cqPromoveUltimo(cq, 5);
-
-    RemoverImpares(cq);
+    PunePrimeiro(cq, 0);
+    // RemoverImpares(cq);
 
     /*
     void **elms;
@@ -159,7 +159,7 @@ int PunePrimeiro(CQueue *q, int n)
     {
         int movimentos;
         void *data = q->elms[q->front];
-        if (n < q->nElms - 1)
+        if (n > q->nElms - 1)
         {
             q->rear = incCirc(q->rear, q->maxItens);
             q->elms[q->rear] = data;
@@ -167,7 +167,7 @@ int PunePrimeiro(CQueue *q, int n)
         }
         else
         {
-            movimentos = q->nElms - 1;
+            movimentos = n;
             int aux = q->front, i;
             while (i < movimentos)
             {
@@ -175,7 +175,7 @@ int PunePrimeiro(CQueue *q, int n)
                 aux = incCirc(aux, q->maxItens);
                 i++;
             }
-            q->elms[q->rear] = data;
+            q->elms[aux] = data;
         }
         return TRUE;
     }
